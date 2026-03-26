@@ -22,3 +22,13 @@ cublasLtHandle_t cublaslt_handle;
         exit(EXIT_FAILURE); \
     } \
 }
+
+enum class ACTIVATION_FN {
+    NONE,
+    RELU,
+    GELU
+};
+
+static cublasComputeType_t cublas_compute_type;
+static size_t cublaslt_workspace_size = 32 * 1024 * 1024;
+static void* cublaslt_workspace = NULL;

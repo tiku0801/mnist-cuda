@@ -39,3 +39,4 @@ Use openBLAS for speed up computation time
 ## Material
 1. https://github.com/karpathy/llm.c
 2. https://github.com/Infatoshi/cuda-course?tab=readme-ov-file
+3. https://github.com/NVIDIA/cuda-samples
