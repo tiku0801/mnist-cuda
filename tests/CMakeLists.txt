@@ -1,0 +1,2 @@
+add_executable(test_matmul matmul_forward_test.cu)
+target_link_libraries(test_matmul PRIVATE core_lib)

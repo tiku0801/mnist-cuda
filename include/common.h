@@ -1,12 +1,16 @@
 #pragma once
-#include <stdio.h>
+#ifndef COMMON_H
+#define COMMON_H
 #include <stdlib.h>
+#include <stdio.h>
+#include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <cublasLt.h>
 #include <cudnn.h>
+#include <float.h>
 
-cublasHandle_t cublas_handle;
-cublasLtHandle_t cublaslt_handle;
+inline cublasHandle_t cublas_handle;
+inline cublasLtHandle_t cublaslt_handle;
 
 #define CHECK_CUDA(call) { \
     cudaError_t err = call; \
@@ -35,14 +39,14 @@ enum class ACTIVATION_FN {
     GELU
 };
 
-static cublasComputeType_t cublas_compute_type;
-static size_t cublaslt_workspace_size = 32 * 1024 * 1024;
-static void* cublaslt_workspace = NULL;
+inline cublasComputeType_t cublas_compute_type;
+inline size_t cublaslt_workspace_size = 32 * 1024 * 1024;
+inline void* cublaslt_workspace = nullptr;
 
 template<class D, class T>
 void validate_result(D* device_result, const T* cpu_reference, const char* name, std::size_t num_elements, T tolerance=1e-4) {
     D* out_gpu = (D*)malloc(num_elements * sizeof(D));
-    cudaCheck(cudaMemcpy(out_gpu, device_result, num_elements * sizeof(D), cudaMemcpyDeviceToHost));
+    CHECK_CUDA(cudaMemcpy(out_gpu, device_result, num_elements * sizeof(D), cudaMemcpyDeviceToHost));
     int nfaults = 0;
 #ifndef ENABLE_BF16
     float epsilon = FLT_EPSILON;
@@ -79,6 +83,4 @@ void validate_result(D* device_result, const T* cpu_reference, const char* name,
 
     free(out_gpu);
 }
-
-
-#include "utils/float_utils.h"
+#endif

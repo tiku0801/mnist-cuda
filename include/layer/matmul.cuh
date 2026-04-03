@@ -1,6 +1,6 @@
 #ifndef LAYER_MATMUL_H
 #define LAYER_MATMUL_H
-#include "common.h"
+#include "../common.h"
 
 // SHAPE:
 // inp is (N,H,W), weight is (O,W), bias is (O)
